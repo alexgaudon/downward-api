@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import os
 import json
-import time
+from flask import Flask, render_template, jsonify
+from datetime import datetime
+
+app = Flask(__name__)
 
 def read_downward_api():
     """Read and display Downward API information."""
@@ -27,21 +30,20 @@ def read_downward_api():
         'pod_ip': pod_ip,
         'node_name': node_name,
         'service_account': service_account,
-        'timestamp': time.strftime('%Y-%m-%d %H:%M:%S')
+        'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
     
     return info
 
-def main():
-    """Main function to run the application."""
-    print("Downward API Example")
-    print("===================")
-    
-    while True:
-        info = read_downward_api()
-        print("\nCurrent Downward API Information:")
-        print(json.dumps(info, indent=2))
-        time.sleep(10)  # Update every 10 seconds
+@app.route('/')
+def index():
+    """Render the main page."""
+    return render_template('index.html')
+
+@app.route('/api/info')
+def get_info():
+    """API endpoint to get Downward API information."""
+    return jsonify(read_downward_api())
 
 if __name__ == '__main__':
-    main() 
+    app.run(host='0.0.0.0', port=8080) 
