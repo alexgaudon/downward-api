@@ -27,7 +27,7 @@ docker build -t downward-api-example .
 To run the container locally:
 
 ```bash
-docker run downward-api-example
+docker run -p 8080:8080 downward-api-example
 ```
 
 ## Using with Kubernetes
@@ -64,7 +64,17 @@ The application is written in Python and uses the following features:
 
 - Environment variable access through `os.getenv()`
 - JSON formatting for output
-- Continuous monitoring with 10-second intervals
+- Server-side rendering with Flask templates
+- Production-grade WSGI server (Gunicorn)
+- Health and readiness probes for Kubernetes
+
+### Server Configuration
+
+The application uses Gunicorn as the WSGI server with the following configuration:
+
+- 4 worker processes
+- Binds to all interfaces on port 8080
+- Automatic worker management
 
 ## GitHub Actions
 
@@ -73,6 +83,7 @@ This repository includes a GitHub Actions workflow that automatically builds the
 1. Sets up Docker Buildx
 2. Builds the container
 3. Uses GitHub Actions cache for faster builds
+4. Pushes to GitHub Container Registry (ghcr.io)
 
 ## License
 

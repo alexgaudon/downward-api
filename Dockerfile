@@ -10,4 +10,5 @@ COPY templates/ templates/
 
 EXPOSE 8080
 
-CMD ["python", "app.py"] 
+# Use Gunicorn with 4 worker processes
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "4", "app:app"] 
