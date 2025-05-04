@@ -40,8 +40,9 @@ def read_downward_api():
 
 @app.route('/')
 def index():
-    """Render the main page."""
-    return render_template('index.html')
+    """Render the main page with server-side data."""
+    info = read_downward_api()
+    return render_template('index.html', info=info)
 
 @app.route('/api/info')
 def get_info():
