@@ -6,6 +6,9 @@ from datetime import datetime
 
 app = Flask(__name__)
 
+# Track application startup time
+start_time = datetime.now()
+
 def read_downward_api():
     """Read and display Downward API information."""
     # Get pod name from Downward API
@@ -44,6 +47,32 @@ def index():
 def get_info():
     """API endpoint to get Downward API information."""
     return jsonify(read_downward_api())
+
+@app.route('/health')
+def health():
+    """Health check endpoint."""
+    return jsonify({
+        'status': 'healthy',
+        'uptime': str(datetime.now() - start_time)
+    }), 200
+
+@app.route('/ready')
+def ready():
+    """Readiness probe endpoint."""
+    # Add any readiness checks here
+    # For example, check if the application can access required resources
+    try:
+        # Basic check: can we read environment variables?
+        _ = read_downward_api()
+        return jsonify({
+            'status': 'ready',
+            'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        }), 200
+    except Exception as e:
+        return jsonify({
+            'status': 'not ready',
+            'error': str(e)
+        }), 503
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080) 
