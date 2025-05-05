@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 import os
 import json
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, url_for
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 # Track application startup time
 start_time = datetime.now()
