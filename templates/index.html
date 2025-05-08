@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kubernetes Downward API Example</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <meta http-equiv="refresh" content="10">
 </head>
 
 <body class="bg-gray-100 min-h-screen">
@@ -43,7 +42,7 @@
                             <p class="mb-3 font-medium text-lg">Node Name: {{ info.node_name }}</p>
                             {% if info.node_name != 'Not set' %}
                             <img src="{{ url_for('static', filename='images/' + info.node_name + '.png') }}"
-                                alt="Node Image" class="shadow-md rounded-lg w-full h-96 object-cover">
+                                alt="Node Image" class="shadow-md rounded-lg w-full h-96 object-cover" decoding="async">
                             {% endif %}
                         </div>
                     </div>
