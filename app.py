@@ -1,13 +1,17 @@
 #!/usr/bin/env python3
 import os
 import json
-from flask import Flask, render_template, jsonify, url_for
+from flask import Flask, render_template, jsonify, url_for, send_from_directory
 from datetime import datetime
+import time
 
 app = Flask(__name__, static_url_path='/static')
 
 # Track application startup time
 start_time = datetime.now()
+
+# Set cache timeout for static files (1 hour in seconds)
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3600
 
 def read_downward_api():
     """Read and display Downward API information."""
@@ -48,6 +52,19 @@ def index():
 def get_info():
     """API endpoint to get Downward API information."""
     return jsonify(read_downward_api())
+
+@app.route('/static/<path:filename>')
+def custom_static(filename):
+    """Serve static files with proper cache headers."""
+    response = send_from_directory('static', filename)
+    # Add cache control headers
+    if filename.startswith('images/'):
+        # Set longer cache time for images (1 day in seconds)
+        response.headers['Cache-Control'] = 'public, max-age=86400'
+    else:
+        # Standard cache time for other static files
+        response.headers['Cache-Control'] = 'public, max-age=3600'
+    return response
 
 @app.route('/health')
 def health():
