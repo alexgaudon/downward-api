@@ -18,38 +18,39 @@
     </style>
 </head>
 
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-900 min-h-screen">
     <div class="mx-auto px-4 py-8 max-w-7xl container">
         <div class="mb-8 text-center">
             <img src="{{ url_for('static', filename='images/kubernetes-logo.svg') }}" alt="Kubernetes Logo"
                 class="mx-auto mb-4 h-20" loading="eager">
-            <h1 class="font-bold text-gray-800 text-4xl">Kubernetes Downward API Information</h1>
+            <h1 class="font-bold text-gray-100 text-4xl">Kubernetes Downward API Information</h1>
         </div>
 
-        <div class="bg-white shadow-lg mx-auto p-8 rounded-lg max-w-7xl">
+        <div class="bg-gray-800 shadow-lg mx-auto p-8 rounded-lg max-w-7xl">
             <div class="gap-8 grid grid-cols-1 md:grid-cols-2">
-                <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="bg-gray-700 p-6 rounded-lg">
                     <div class="flex items-center mb-6">
                         <img src="{{ url_for('static', filename='images/pod-icon.png') }}" alt="Pod Icon"
                             class="mr-3 w-10 h-10" loading="eager">
-                        <h2 class="font-semibold text-gray-700 text-xl">Pod Information</h2>
+                        <h2 class="font-semibold text-gray-100 text-xl">Pod Information</h2>
                     </div>
-                    <div class="space-y-3 text-lg">
-                        <p><span class="font-medium">Name:</span> {{ info.pod_name }}</p>
-                        <p><span class="font-medium">Namespace:</span> {{ info.pod_namespace }}</p>
-                        <p><span class="font-medium">IP:</span> {{ info.pod_ip }}</p>
+                    <div class="space-y-3 text-gray-200 text-lg">
+                        <p><span class="font-medium text-blue-300">Name:</span> {{ info.pod_name }}</p>
+                        <p><span class="font-medium text-blue-300">Namespace:</span> {{ info.pod_namespace }}</p>
+                        <p><span class="font-medium text-blue-300">IP:</span> {{ info.pod_ip }}</p>
                     </div>
                 </div>
 
-                <div class="bg-gray-50 p-6 rounded-lg">
+                <div class="bg-gray-700 p-6 rounded-lg">
                     <div class="flex items-center mb-6">
                         <img src="{{ url_for('static', filename='images/node-icon.png') }}" alt="Node Icon"
                             class="mr-3 w-10 h-10" loading="eager">
-                        <h2 class="font-semibold text-gray-700 text-xl">Node Information</h2>
+                        <h2 class="font-semibold text-gray-100 text-xl">Node Information</h2>
                     </div>
                     <div class="space-y-6">
                         <div>
-                            <p class="mb-3 font-medium text-lg">Node Name: {{ info.node_name }}</p>
+                            <p class="mb-3 font-medium text-gray-200 text-lg">Node Name: <span class="text-blue-300">{{
+                                    info.node_name }}</span></p>
                             {% if info.node_name != 'Not set' %}
                             <img src="{{ url_for('static', filename='images/' + info.node_name + '.png') }}"
                                 alt="Node Image" class="shadow-md rounded-lg w-full h-96 object-cover" loading="eager"
@@ -60,7 +61,7 @@
                 </div>
             </div>
 
-            <div class="mt-8 text-gray-500 text-sm text-center">
+            <div class="mt-8 text-gray-400 text-sm text-center">
                 Last updated: {{ info.timestamp }}
             </div>
         </div>
