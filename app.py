@@ -4,6 +4,8 @@ import json
 from flask import Flask, render_template, jsonify, url_for, send_from_directory
 from datetime import datetime
 import time
+import random
+
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -16,20 +18,32 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 3600
 def read_downward_api():
     """Read and display Downward API information."""
     # Get pod name from Downward API
-    pod_name = os.getenv('POD_NAME', 'Not set')
-    
+    pod_name = os.getenv('POD_NAME')
+
     # Get pod namespace from Downward API
-    pod_namespace = os.getenv('POD_NAMESPACE', 'Not set')
-    
+    pod_namespace = os.getenv('POD_NAMESPACE')
+
     # Get pod IP from Downward API
-    pod_ip = os.getenv('POD_IP', 'Not set')
-    
+    pod_ip = os.getenv('POD_IP')
+
     # Get node name from Downward API
-    node_name = os.getenv('NODE_NAME', 'Not set')
-    
+    node_name = os.getenv('NODE_NAME')
+
     # Get service account name from Downward API
-    service_account = os.getenv('SERVICE_ACCOUNT', 'Not set')
-    
+    service_account = os.getenv('SERVICE_ACCOUNT')
+
+    # Mock values for local development
+    if not pod_name:
+        pod_name = 'downward-api-example-pod'
+    if not pod_namespace:
+        pod_namespace = 'development'
+    if not pod_ip:
+        pod_ip = '192.168.1.100'
+    if not node_name:
+        node_name = f'k8s-worker-{random.randint(1, 3)}'
+    if not service_account:
+        service_account = 'development'
+
     # Create a dictionary with all the information
     info = {
         'pod_name': pod_name,
@@ -39,7 +53,7 @@ def read_downward_api():
         'service_account': service_account,
         'timestamp': datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     }
-    
+
     return info
 
 @app.route('/')
