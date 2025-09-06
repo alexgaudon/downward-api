@@ -53,14 +53,16 @@
 </head>
 
 <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen">
-    <div class="mx-auto px-4 py-12 max-w-7xl container">
-        <div class="mb-12 text-center">
-            <img src="{{ url_for('static', filename='images/kubernetes-logo.svg') }}" alt="Kubernetes Logo"
-                class="mx-auto mb-6 h-24 logo-spin opacity-90" loading="eager">
-            <h1
-                class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 text-5xl mb-2">
-                Kubernetes Downward API</h1>
-            <p class="text-gray-300 text-lg">Real-time pod and node information</p>
+    <div class="mx-auto px-4 py-6 max-w-full container">
+        <div class="mb-6 text-center">
+            <div class="flex items-center justify-center mb-2">
+                <img src="{{ url_for('static', filename='images/kubernetes-logo.svg') }}" alt="Kubernetes Logo"
+                    class="mr-3 h-12 logo-spin opacity-90" loading="eager">
+                <h1
+                    class="font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-600 text-2xl">
+                    Kubernetes Downward API</h1>
+            </div>
+            <p class="text-gray-300 text-base">Real-time pod and node information</p>
         </div>
 
         {% if info.pod_namespace == 'development' %}
@@ -70,69 +72,64 @@
                 ⚠️ This is mock information for development environment
             </div>
         </div>
+        {% else %}
+        <div class="absolute bottom-4 left-4 text-white font-bold text-lg">
+            Node: {{ info.node_name }}
+        </div>
         {% endif %}
 
         <div
             class="bg-gray-800/50 backdrop-blur-sm shadow-2xl mx-auto p-8 rounded-2xl max-w-7xl border border-gray-700/50">
-            <div class="gap-8 grid grid-cols-1 lg:grid-cols-2">
+            <div class="gap-8 grid grid-cols-1">
                 <div
-                    class="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-2xl card-hover border border-gray-600/50 shadow-xl">
-                    <div class="flex items-center mb-8">
+                    class="bg-gradient-to-br from-gray-700 to-gray-800 p-4 rounded-2xl card-hover border border-gray-600/50 shadow-xl">
+                    <div class="flex items-center mb-4">
                         <img src="{{ url_for('static', filename='images/node-icon.png') }}" alt="Node Icon"
-                            class="mr-4 w-12 h-12 drop-shadow-lg" loading="eager">
-                        <h2 class="font-bold text-gray-100 text-2xl">Node Information</h2>
+                            class="mr-4 w-8 h-8 drop-shadow-lg" loading="eager">
+                        <h2 class="font-bold text-gray-100 text-xl">Node Information</h2>
                     </div>
-                    <div class="space-y-6">
+                    <div class="space-y-4">
                         <div>
                             <p class="mb-4 font-semibold text-gray-200 text-lg">Node Name: <span
                                     class="text-blue-400 font-bold text-xl">{{info.node_name }}</span></p>
                             {% if info.node_name != 'Not set' %}
                             <div class="relative overflow-hidden rounded-xl shadow-2xl">
-                                <img src="{{ url_for('static', filename='images/' + info.node_name + '.png') }}"
-                                    alt="Node Image"
-                                    class="w-full h-80 object-cover transition-transform duration-300 hover:scale-105"
+                                <img src="{{ url_for('static', filename='images/rack.jpg') }}" alt="Rack Image"
+                                    class="w-full h-[540px] object-contain transition-transform duration-300 hover:scale-105"
                                     loading="eager" fetchpriority="high">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
+                                 {% if info.node_name == 'k8s-worker-3' %}
+                                  <div class="absolute bottom-[60px] left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center">
+                                      <-- You Are Here -->
+                                 </div>
+                                 {% elif info.node_name == 'k8s-worker-2' %}
+                                 <div class="absolute bottom-[105px] left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center">
+                                     <-- You Are Here -->
+                                 </div>
+                                 {% elif info.node_name == 'k8s-worker-1' %}
+                                 <div class="absolute bottom-[150px] left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center">
+                                     <-- You Are Here -->
+                                 </div>
+                                 {% else %}
+                                 <div class="absolute bottom-4 left-4 text-white font-bold text-lg">
+                                     Node: {{ info.node_name }}
+                                 </div>
+                                 {% endif %}
+                         </div>
+                     </div>
+                 </div>
+                 {% endif %}
                 </div>
 
-                <div
-                    class="bg-gradient-to-br from-gray-700 to-gray-800 p-8 rounded-2xl card-hover border border-gray-600/50 shadow-xl">
-                    <div class="flex items-center mb-8">
-                        <img src="{{ url_for('static', filename='images/pod-icon.png') }}" alt="Pod Icon"
-                            class="mr-4 w-12 h-12 drop-shadow-lg" loading="eager">
-                        <h2 class="font-bold text-gray-100 text-2xl">Pod Information</h2>
+                <div class="mt-12 text-center">
+                    <div
+                        class="inline-flex items-center bg-gray-700/50 px-6 py-3 rounded-full border border-gray-600/50">
+                        <div class="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></div>
+                        <span class="text-gray-300 text-sm font-medium">Last updated: {{ info.timestamp }}</span>
                     </div>
-                    <div class="space-y-4">
-                        <div class="bg-gray-600/30 p-4 rounded-lg border border-gray-500/30">
-                            <p class="text-gray-200 text-lg"><span class="font-semibold text-blue-400">Name:</span>
-                                <span class="font-medium">{{ info.pod_name }}</span>
-                            </p>
-                        </div>
-                        <div class="bg-gray-600/30 p-4 rounded-lg border border-gray-500/30">
-                            <p class="text-gray-200 text-lg"><span class="font-semibold text-blue-400">Namespace:</span>
-                                <span class="font-medium">{{ info.pod_namespace }}</span>
-                            </p>
-                        </div>
-                        <div class="bg-gray-600/30 p-4 rounded-lg border border-gray-500/30">
-                            <p class="text-gray-200 text-lg"><span class="font-semibold text-blue-400">IP:</span> <span
-                                    class="font-medium font-mono">{{ info.pod_ip }}</span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-12 text-center">
-                <div class="inline-flex items-center bg-gray-700/50 px-6 py-3 rounded-full border border-gray-600/50">
-                    <div class="w-2 h-2 bg-green-400 rounded-full mr-3 animate-pulse"></div>
-                    <span class="text-gray-300 text-sm font-medium">Last updated: {{ info.timestamp }}</span>
                 </div>
             </div>
         </div>
-    </div>
 </body>
 
 </html>
