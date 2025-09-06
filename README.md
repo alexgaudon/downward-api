@@ -70,13 +70,10 @@ The application is written in Python and uses the following features:
 
 ### Local Development
 
-This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
-
 To run locally:
 
-1. Install uv: `curl -LsSf https://astral.sh/uv/install.sh | sh`
-2. Install dependencies: `make install`
-3. Run the app: `make run`
+1. Install dependencies: `make install`
+2. Run the app: `make run`
 
 The app will be available at http://localhost:8080
 
