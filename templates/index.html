@@ -98,27 +98,36 @@
                                     class="w-full h-[540px] object-contain transition-transform duration-300 hover:scale-105"
                                     loading="eager" fetchpriority="high">
                                 <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
-                                 {% if info.node_name == 'k8s-worker-3' %}
-                                  <div class="absolute bottom-[60px] left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center">
-                                      <-- You Are Here -->
-                                 </div>
-                                 {% elif info.node_name == 'k8s-worker-2' %}
-                                 <div class="absolute bottom-[105px] left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center">
-                                     <-- You Are Here -->
-                                 </div>
-                                 {% elif info.node_name == 'k8s-worker-1' %}
-                                 <div class="absolute bottom-[150px] left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center">
-                                     <-- You Are Here -->
-                                 </div>
-                                 {% else %}
-                                 <div class="absolute bottom-4 left-4 text-white font-bold text-lg">
-                                     Node: {{ info.node_name }}
-                                 </div>
-                                 {% endif %}
-                         </div>
-                     </div>
-                 </div>
-                 {% endif %}
+                                {% if info.node_name == 'k8s-worker-3' %}
+                                <div class="absolute left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center
+                                    bottom-[60px] sm:bottom-[60px] xs:bottom-[80px]">
+                                    <span class="block sm:hidden" style="position:relative; bottom:25px;">You Are
+                                        Here</span>
+                                    <span class="hidden sm:block">You Are Here</span>
+                                </div>
+                                {% elif info.node_name == 'k8s-worker-2' %}
+                                <div class="absolute left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center
+                                    bottom-[105px] sm:bottom-[105px] xs:bottom-[125px]">
+                                    <span class="block sm:hidden" style="position:relative; bottom:25px;">You Are
+                                        Here</span>
+                                    <span class="hidden sm:block">You Are Here</span>
+                                </div>
+                                {% elif info.node_name == 'k8s-worker-1' %}
+                                <div class="absolute left-1/2 -translate-x-1/2 text-white font-bold text-lg text-center
+                                    bottom-[150px] sm:bottom-[150px] xs:bottom-[170px]">
+                                    <span class="block sm:hidden" style="position:relative; bottom:25px;">You Are
+                                        Here</span>
+                                    <span class="hidden sm:block">You Are Here</span>
+                                </div>
+                                {% else %}
+                                <div class="absolute bottom-4 left-4 text-white font-bold text-lg">
+                                    Node: {{ info.node_name }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
 
                 <div class="mt-12 text-center">
